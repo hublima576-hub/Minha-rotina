@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Minha Rotina</title>
+<style>
+:root{--bg:#faf7f5;--card:#fff;--tx:#2b2326;--mu:#8a7b80;--ac:#c2456e;--ac2:#f6dbe5;--ok:#2f9e6b;--bd:#eadfe3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1417;--card:#261d21;--tx:#f3eaed;--mu:#a18f95;--ac:#e8719a;--ac2:#3d2430;--ok:#4cc38a;--bd:#3a2c32}}
+:root[data-theme="dark"]{--bg:#1a1417;--card:#261d21;--tx:#f3eaed;--mu:#a18f95;--ac:#e8719a;--ac2:#3d2430;--ok:#4cc38a;--bd:#3a2c32}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.w{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:4px 0}.s{color:var(--mu);font-size:13px}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font-size:15px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.top{display:flex;align-items:center;gap:16px}
+.ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;flex:none}
+.ring b{background:var(--card);width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:18px}
+.t{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.t:last-child{border:0}
+.t input[type=checkbox]{width:24px;height:24px;accent-color:var(--ok);flex:none}
+.t .n{flex:1;font-size:15px}.t.d .n{text-decoration:line-through;color:var(--mu)}
+.t input[type=time]{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:8px;padding:4px;font-size:13px}
+.x{background:none;border:0;color:var(--mu);font-size:18px}
+.k{font-size:11px;background:var(--ac2);color:var(--ac);border-radius:6px;padding:2px 6px}
+.add{display:flex;gap:6px;flex-wrap:wrap}
+.add input,.add select{flex:1;min-width:90px;padding:9px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
+.add button,.btn{padding:9px 14px;border:0;border-radius:10px;background:var(--ac);color:#fff}
+.bars{display:flex;align-items:flex-end;gap:8px;height:130px}
+.bars div{flex:1;text-align:center;font-size:11px;color:var(--mu);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bars i{display:block;background:var(--ac);border-radius:6px 6px 0 0;min-height:2px}
+.row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:13px}
+.row span:first-child{width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr{flex:1;height:10px;background:var(--ac2);border-radius:6px;overflow:hidden}.tr i{display:block;height:100%;background:var(--ac)}
+.kp{display:flex;gap:10px}.kp .c{flex:1;margin:0;text-align:center}.kp b{font-size:24px;display:block;color:var(--ac)}
+.hm{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.hm i{aspect-ratio:1;border-radius:4px;background:var(--ac2)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}.cal div{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;font-size:12px;background:var(--ac2);cursor:pointer}.cal .h{background:none;aspect-ratio:auto;color:var(--mu);cursor:default}.cal .ok{background:var(--ok);color:#fff}
+#al{position:fixed;inset:0;background:var(--ac);color:#fff;z-index:10;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px}#al h2{font-size:30px;margin:0}#al button{padding:14px 22px;border:0;border-radius:14px;font-size:17px}
+#toast{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);background:var(--ac);color:#fff;padding:12px;border-radius:12px;display:none;z-index:9}
+</style></head><body>
+<div id="toast"></div>
+<div id="al"><div style="font-size:60px">⏰</div><div id="alh" style="font-size:22px"></div><h2 id="alt"></h2><button onclick="done()">✅ Feito</button><button onclick="snooze()">😴 Soneca 5 min</button><button onclick="stopAl()">Parar</button></div>
+<div class="w">
+<h1>Minha Rotina</h1><div class="s" id="dt"></div>
+<div class="tabs"><button id="b1" class="on" onclick="tab(1)">Hoje</button><button id="b2" onclick="tab(2)">Desempenho</button></div>
+<div id="v1">
+<div class="c top"><div class="ring" id="ring"><b id="pct"></b></div><div><b id="cnt"></b><div class="s" id="msg"></div><button class="btn" style="margin-top:8px;padding:6px 10px;font-size:12px" onclick="unlock()">🔔 Ativar alarme</button></div></div>
+<div class="c" id="list"></div>
+<div class="c add"><input id="nn" placeholder="Nova tarefa ou hábito"><input id="nt" type="time" value="08:00"><select id="nk"><option>Rotina</option><option>Hábito</option></select><button onclick="add()">Adicionar</button></div>
+<div class="s">O alarme toca no horário de cada tarefa enquanto esta página estiver aberta (toque em "Ativar alarme" ao abrir).</div>
+</div>
+<div id="v2" style="display:none">
+<div class="c" style="display:flex;justify-content:space-between;align-items:center"><button class="btn" onclick="mv(-1)">◀</button><b id="mt"></b><button class="btn" onclick="mv(1)">▶</button></div>
+<div class="kp"><div class="c"><b id="k1"></b><span class="s">média do mês</span></div><div class="c"><b id="k2"></b><span class="s">dias perfeitos 🔥</span></div><div class="c"><b id="k3"></b><span class="s">melhor dia</span></div></div>
+<div class="c" style="margin-top:12px"><b>Calendário</b> <span class="s">(toque num dia para ver ou editar)</span><div class="cal" id="cal"></div></div>
+<div class="c"><b>% de cumprimento por dia</b><div class="bars" id="bars" style="margin-top:10px;gap:2px"></div></div>
+<div class="c"><b>Taxa por tarefa no mês</b><div id="rates"></div></div>
+</div></div>
+<script>
+const DEF=[["Acordar cedo","05:30","Rotina"],["Ler a Palavra","06:00","Rotina"],["Treino","06:30","Rotina"],["Trabalho","09:00","Rotina"],["Atendimento aos clientes","10:00","Rotina"],["Foco FJL","14:00","Rotina"],["Faculdade","19:00","Rotina"],["Skincare","22:00","Hábito"],["Leitura de um livro","22:30","Hábito"],["Finalizar o dia","23:00","Rotina"]];
+let T=[],L={},fired={},SD=new Date(),MO=new Date(),AC=null,alT=null,cur=null;MO.setDate(1);
+try{T=JSON.parse(localStorage.getItem("rt")||"null")||[];L=JSON.parse(localStorage.getItem("rl")||"{}")}catch(e){}
+if(!T.length)T=DEF.map((d,i)=>({id:"t"+i,n:d[0],h:d[1],k:d[2]}));
+const $=id=>document.getElementById(id);
+const key=d=>{d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const ago=n=>{const d=new Date();d.setDate(d.getDate()-n);return d};
+function save(){try{localStorage.setItem("rt",JSON.stringify(T));localStorage.setItem("rl",JSON.stringify(L))}catch(e){}}
+function rate(d){const k=key(d),a=L[k]||[];if(!T.length)return 0;return Math.round(T.filter(t=>a.includes(t.id)).length/T.length*100)}
+function tab(n){$("v1").style.display=n==1?"":"none";$("v2").style.display=n==2?"":"none";$("b1").className=n==1?"on":"";$("b2").className=n==2?"on":"";draw()}
+function tog(id){const k=key(SD);L[k]=L[k]||[];const i=L[k].indexOf(id);i<0?L[k].push(id):L[k].splice(i,1);save();draw()}
+function seth(id,v){T.find(t=>t.id==id).h=v;save()}
+function del(id){if(confirm("Remover esta tarefa?")){T=T.filter(t=>t.id!=id);save();draw()}}
+function add(){const n=$("nn").value.trim();if(!n)return;T.push({id:"t"+Date.now(),n,h:$("nt").value,k:$("nk").value});$("nn").value="";save();draw()}
+function notif(){try{Notification.requestPermission().then(p=>show(p=="granted"?"Notificações ativadas ✅":"Permissão negada; usarei avisos na tela."))}catch(e){show("Seu navegador não permite notificações; usarei avisos na tela.")}}
+function show(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",6000)}
+function draw(){
+ const k=key(SD),a=L[k]||[],r=rate(SD);
+ $("dt").innerHTML=SD.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})+(key(SD)!=key()?` · <a href="#" onclick="SD=new Date();draw();return false" style="color:var(--ac)">voltar para hoje</a>`:"");
+ $("ring").style.background=`conic-gradient(var(--ok) ${r*3.6}deg,var(--ac2) 0)`;
+ $("pct").textContent=r+"%";$("cnt").textContent=T.filter(t=>a.includes(t.id)).length+" de "+T.length+" feitas";
+ $("msg").textContent=r==100?"Dia perfeito! 🎉":r>=50?"Continue assim!":"Vamos começar!";
+ $("list").innerHTML=[...T].sort((x,y)=>x.h>y.h?1:-1).map(t=>`<div class="t ${a.includes(t.id)?"d":""}"><input type="checkbox" ${a.includes(t.id)?"checked":""} onchange="tog('${t.id}')"><span class="n">${t.n} <span class="k">${t.k}</span></span><input type="time" value="${t.h}" onchange="seth('${t.id}',this.value)"><button class="x" onclick="del('${t.id}')">✕</button></div>`).join("");
+ const y=MO.getFullYear(),m=MO.getMonth(),nd=new Date(y,m+1,0).getDate(),td=key();
+ $("mt").textContent=MO.toLocaleDateString("pt-BR",{month:"long",year:"numeric"});
+ const ds=[...Array(nd).keys()].map(i=>new Date(y,m,i+1)),past=ds.filter(d=>key(d)<=td),rs=past.map(rate);
+ $("k1").textContent=(rs.length?Math.round(rs.reduce((x,y)=>x+y,0)/rs.length):0)+"%";
+ $("k2").textContent=rs.filter(x=>x==100).length;$("k3").textContent=(rs.length?Math.max(...rs):0)+"%";
+ $("cal").innerHTML=["D","S","T","Q","Q","S","S"].map(x=>`<div class="h">${x}</div>`).join("")+"<div class='h'></div>".repeat(ds[0].getDay())+ds.map(d=>{const r=rate(d),f=key(d)>td;return `<div onclick="go(${y},${m},${d.getDate()})" style="${f?"opacity:.4;":""}${r?`background:var(--ok);color:#fff;opacity:${f?.4:.35+r/154}`:""}${key(d)==td?";outline:2px solid var(--ac)":""}" title="${r}%">${d.getDate()}</div>`}).join("");
+ $("bars").innerHTML=ds.map(d=>{const r=key(d)>td?0:rate(d);return `<div style="font-size:9px"><i style="height:${r*0.9}px"></i>${d.getDate()}</div>`}).join("");
+ $("rates").innerHTML=T.map(t=>{const c=past.filter(d=>(L[key(d)]||[]).includes(t.id)).length,p=past.length?Math.round(c/past.length*100):0;return `<div class="row"><span>${t.n}</span><div class="tr"><i style="width:${p}%"></i></div><span style="width:34px;text-align:right">${p}%</span></div>`}).join("");
+}
+function mv(n){MO.setMonth(MO.getMonth()+n);draw()}
+function go(y,m,d){SD=new Date(y,m,d);tab(1)}
+function unlock(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();AC.resume()}catch(e){}try{navigator.wakeLock&&navigator.wakeLock.request("screen")}catch(e){}notif();show("Alarme ativado 🔔 Mantenha a página aberta e o volume alto.")}
+function beep(){if(!AC)return;const o=AC.createOscillator(),g=AC.createGain();o.type="square";o.frequency.value=880;g.gain.value=.25;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.25)}
+function ring(t){cur=t;$("alt").textContent=t.n;$("alh").textContent=t.h;$("al").style.display="flex";clearInterval(alT);const f=()=>{beep();setTimeout(beep,350);try{navigator.vibrate&&navigator.vibrate([400,200,400])}catch(e){}};f();alT=setInterval(f,1500)}
+function stopAl(){clearInterval(alT);$("al").style.display="none"}
+function done(){if(cur){const k=key();L[k]=L[k]||[];if(!L[k].includes(cur.id))L[k].push(cur.id);save();draw()}stopAl()}
+function snooze(){const t=cur;stopAl();setTimeout(()=>ring(t),300000)}
+function tick(){const now=new Date(),hm=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"),k=key();
+ T.forEach(t=>{if(t.h==hm&&!fired[k+t.id]&&!(L[k]||[]).includes(t.id)){fired[k+t.id]=1;ring(t);try{if(Notification.permission=="granted")new Notification("Hora de: "+t.n,{body:hm})}catch(e){}}})}
+draw();setInterval(tick,20000);tick();
+</script></body></html>
